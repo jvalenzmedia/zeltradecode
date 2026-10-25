@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>ZelTrade Code</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="jvl-steel-blue.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="panel" class="jvl-panel oculto">
+    <div class="jvl-brillo"></div>
+
+    <div id="banner" class="banner">
+        <img id="banner-img" class="oculto" alt="">
+        <header class="cabecera">
+            <img id="logo" class="logo oculto" alt="">
+            <i id="logo-icono" class="fa-solid fa-gift logo-icono oculto"></i>
+            <span id="servidor" class="servidor"></span>
+            <button id="cerrar" class="cerrar" data-t="ui_close"><i class="fa-solid fa-xmark"></i></button>
+        </header>
+    </div>
+
+    <section class="cuerpo">
+        <div class="jvl-titulo"><i class="fa-solid fa-gift"></i> <span data-t="ui_title"></span></div>
+        <p class="desc" data-t="ui_desc"></p>
+
+        <label class="boleto">
+            <i class="fa-solid fa-ticket"></i>
+            <input id="codigo" type="text" maxlength="30" autocomplete="off" spellcheck="false">
+        </label>
+
+        <button id="canjear" class="jvl-boton"><span data-t="ui_redeem"></span> <i class="fa-solid fa-arrow-right"></i></button>
+        <div id="resultado" class="resultado"></div>
+    </section>
+
+    <footer class="pie">
+        <span id="version"></span>
+        <span data-t="ui_hint"></span>
+        <span>&lt;/&gt; JVL MediaCode</span>
+    </footer>
+</div>
+<script src="script.js"></script>
+</body>
+</html>

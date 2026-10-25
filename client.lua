@@ -1,111 +1,118 @@
-local _lhkgeu = {159,51,60,73,144,74,253,105}
-local _dtciec_T = {
-  {240,75,99,61,241,56,154,12,235},
-  {229,86,80,61,226,43,153,12,192,65,89,45,245,47,144},
-  {249,82,79,105,246,43,208,14,246,85,72},
-  {240,67,89,39},
-  {252,95,83,58,245},
-  {252,95,83,58,245,31,180},
-  {240,88},
-  {237,86,88,44,245,39},
-  {},
-  {229,86,80,61,226,43,153,12,252,92,88,44,170,56,152,13,250,86,81},
-  {240,88},
-  {229,86,80,61,226,43,153,12,252,92,88,44,170,36,146,29,246,85,69},
-  {237,86,79,60,252,62},
-  {236,70,95,42,245,57,142}
-}
-local function _dtciec(i)
-  local t = _dtciec_T[i + 1]
-  local out = {}
-  for k = 1, #t do
-    out[k] = string.char(t[k] ~ _lhkgeu[((k - 1) % #_lhkgeu) + 1])
-  end
-  return table.concat(out)
+--[[
+    Client: the NPC (ox_target, qb-target or [E]), the blip and the redeem panel. Only sends the code;
+    the server checks everything and talks to ZelTrade.
+]]
+
+local abierto = false
+local ped, blip = nil, nil
+
+local function textos()
+    local t = {}
+    for k in pairs(Locales.es) do if k:sub(1, 3) == 'ui_' then t[k] = L(k) end end
+    return t
 end
 
-local isOpen=false
-local ped=nil
+-- ─── PANEL ───────────────────────────────────────────────────────────────────
+local function abrir()
+    if abierto then return end
+    abierto = true
+    SetNuiFocus(true, true)
+    SendNUIMessage({
+        action = 'open',
+        texts = textos(),
+        serverName = Config.Branding.ServerName,
+        logo = Config.Branding.LogoUrl,
+        banner = Config.Branding.BannerUrl,
+        version = GetResourceMetadata(GetCurrentResourceName(), 'version', 0),
+    })
+end
 
+local function cerrar()
+    if not abierto then return end
+    abierto = false
+    SetNuiFocus(false, false)
+    SendNUIMessage({ action = 'close' })
+end
 
+RegisterNUICallback('close', function(_, cb) cb('ok') cerrar() end)
 
+RegisterNUICallback('redeem', function(d, cb)
+    cb('ok')
+    local code = LimpiarCodigo(type(d) == 'table' and d.code or nil)
+    if not code then return SendNUIMessage({ action = 'result', success = false, msg = L('err_invalid') }) end
+    TriggerServerEvent('zeltradecode:canjear', code)
+end)
+
+RegisterNetEvent('zeltradecode:resultado', function(ok, key, args, text)
+    local msg = text or L(key, table.unpack(args or {}))
+    Notify(msg, ok and 'success' or 'error')
+    if abierto then SendNUIMessage({ action = 'result', success = ok, msg = msg }) end
+end)
+
+-- ─── NPC ─────────────────────────────────────────────────────────────────────
+local function usarTarget()
+    local t = Config.Target
+    if t == 'auto' then
+        t = GetResourceState('ox_target') == 'started' and 'ox_target' or GetResourceState('qb-target') == 'started' and 'qb-target' or 'key'
+    end
+    if t == 'ox_target' then
+        exports.ox_target:addLocalEntity(ped, { { name = 'zeltradecode', label = L('target'), icon = 'fa-solid fa-gift', distance = 2.5, onSelect = abrir } })
+    elseif t == 'qb-target' then
+        exports['qb-target']:AddTargetEntity(ped, { options = { { label = L('target'), icon = 'fas fa-gift', action = abrir } }, distance = 2.5 })
+    else
+        CreateThread(function()
+            local mostrando = false
+            local pos = Config.Ped.coords.xyz
+            while ped do
+                local cerca = not abierto and #(GetEntityCoords(PlayerPedId()) - pos) <= Config.KeyDistance
+                if cerca ~= mostrando then
+                    mostrando = cerca
+                    if cerca then ShowTextUI(L('key_prompt')) else HideTextUI() end
+                end
+                if cerca and IsControlJustReleased(0, 38) then abrir() end -- 38 = E
+                Wait(cerca and 0 or 500)
+            end
+            if mostrando then HideTextUI() end
+        end)
+    end
+end
 
 CreateThread(function()
-local model=GetHashKey(Config.Ped.model)
-RequestModel(model)
-while not HasModelLoaded(model)do Wait(100)end
+    local c = Config.Ped
+    local model = joaat(c.model)
+    if not IsModelInCdimage(model) then return print(('^1[zeltradecode] Modelo de NPC inválido: %s^0'):format(c.model)) end
+    RequestModel(model)
+    local timeout = GetGameTimer() + 10000
+    while not HasModelLoaded(model) do
+        if GetGameTimer() > timeout then return print('^1[zeltradecode] No cargó el modelo del NPC^0') end
+        Wait(50)
+    end
 
-ped=CreatePed(4,model,Config.Ped.coords.x,Config.Ped.coords.y,Config.Ped.coords.z-1.0,Config.Ped.coords.w,false,true)
-SetEntityInvincible(ped,true)
-SetBlockingOfNonTemporaryEvents(ped,true)
-FreezeEntityPosition(ped,true)
-SetModelAsNoLongerNeeded(model)
+    ped = CreatePed(4, model, c.coords.x, c.coords.y, c.coords.z - 1.0, c.coords.w, false, true)
+    SetModelAsNoLongerNeeded(model)
+    SetEntityInvincible(ped, true)
+    SetBlockingOfNonTemporaryEvents(ped, true)
+    FreezeEntityPosition(ped, true)
+    if c.scenario and c.scenario ~= '' then TaskStartScenarioInPlace(ped, c.scenario, 0, true) end
+    usarTarget()
 
-exports[_dtciec(0)]:addLocalEntity(ped,{
-{
-name=_dtciec(1),
-label=Config.Ped.label,
-icon=_dtciec(2),
-onSelect=function()
-openUI()
-end,
-}
-})
+    local b = Config.Blip
+    if b.enabled then
+        blip = AddBlipForCoord(c.coords.x, c.coords.y, c.coords.z)
+        SetBlipSprite(blip, b.sprite)
+        SetBlipColour(blip, b.color)
+        SetBlipScale(blip, b.scale)
+        SetBlipAsShortRange(blip, true)
+        BeginTextCommandSetBlipName('STRING')
+        AddTextComponentSubstringPlayerName(L('blip'))
+        EndTextCommandSetBlipName(blip)
+    end
 end)
 
-
-
-
-function openUI()
-if isOpen then return end
-isOpen=true
-
-SetNuiFocus(true,true)
-SendNUIMessage({
-action=_dtciec(3),
-serverName=Config.ServerName,
-serverBanner=Config.ServerBanner,
-})
-end
-
-
-
-
-function closeUI()
-if not isOpen then return end
-isOpen=false
-SetNuiFocus(false,false)
-SendNUIMessage({action=_dtciec(4)})
-end
-
-
-
-
-RegisterNUICallback(_dtciec(5),function(_a,_b)
-closeUI()
-_b(_dtciec(6))
+AddEventHandler('onResourceStop', function(name)
+    if name ~= GetCurrentResourceName() then return end
+    if abierto then SetNuiFocus(false, false) end
+    if ped and DoesEntityExist(ped) then DeleteEntity(ped) end
+    if blip then RemoveBlip(blip) end
+    ped = nil
 end)
-
-RegisterNUICallback(_dtciec(7),function(_e,_b)
-local code=tostring(_e.code or _dtciec(8)):upper()
-TriggerServerEvent(_dtciec(9),code)
-_b(_dtciec(10))
-end)
-
-
-
-
-RegisterNetEvent(_dtciec(11),function(_c,_d)
-Config.ClientNotify(_c,_d)
-
-
-if isOpen then
-SendNUIMessage({
-action=_dtciec(12),
-success=_d==_dtciec(13),
-msg=_c,
-})
-end
-end)
-
-

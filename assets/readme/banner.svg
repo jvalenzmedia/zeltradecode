@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="340" viewBox="0 0 1200 340" role="img" aria-label="ZelTrade Code — redeem ZelTrade store purchase codes at an NPC for FiveM">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#05080d"/>
+      <stop offset="1" stop-color="#0a1626"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#fbbf24" stop-opacity="0.22"/>
+      <stop offset="1" stop-color="#fbbf24" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="linea" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#0b2545"/>
+      <stop offset="0.35" stop-color="#0ea5e9"/>
+      <stop offset="0.5" stop-color="#e9eef5"/>
+      <stop offset="0.65" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#38bdf8" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="boleto" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2a2210"/>
+      <stop offset="0.55" stop-color="#16212f"/>
+      <stop offset="1" stop-color="#0b2545"/>
+    </linearGradient>
+    <linearGradient id="metal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.55" stop-color="#cbd5e1"/>
+      <stop offset="1" stop-color="#8b98a9"/>
+    </linearGradient>
+    <linearGradient id="barrido" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="0.5" stop-color="#ffffff" stop-opacity="0.18"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+    <clipPath id="recorte"><rect x="660" y="92" width="440" height="170" rx="18"/></clipPath>
+    <style>
+      .brillo { animation: brillo 3.6s ease-in-out infinite; }
+      .chispa { animation: chispa 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+      .c2 { animation-delay: .8s; } .c3 { animation-delay: 1.6s; }
+      .moneda { animation: subir 3s ease-in infinite; }
+      .m2 { animation-delay: 1s; } .m3 { animation-delay: 2s; }
+      .cursor { animation: parpadeo 1s steps(1) infinite; }
+      @keyframes brillo { 0% { transform: translateX(-480px); } 60%, 100% { transform: translateX(520px); } }
+      @keyframes chispa { 0%, 100% { opacity: .15; transform: scale(.6); } 50% { opacity: 1; transform: scale(1); } }
+      @keyframes subir { 0% { opacity: 0; transform: translateY(0); } 25% { opacity: 1; } 100% { opacity: 0; transform: translateY(-70px); } }
+      @keyframes parpadeo { 50% { opacity: 0; } }
+    </style>
+  </defs>
+
+  <rect width="1200" height="340" fill="url(#bg)"/>
+  <rect x="0" y="0" width="1200" height="2" fill="url(#linea)"/>
+  <rect x="0" y="338" width="1200" height="2" fill="url(#linea)" opacity="0.45"/>
+  <path d="M24 24 h34 M24 24 v34" stroke="#cbd5e1" stroke-width="2" fill="none"/>
+  <path d="M1176 316 h-34 M1176 316 v-34" stroke="#38bdf8" stroke-width="2" fill="none"/>
+
+  <!-- title -->
+  <g font-family="'Segoe UI', Arial, sans-serif">
+    <text x="80" y="118" fill="#fbbf24" font-size="15" font-weight="700" letter-spacing="4">JVL MEDIACODE · ZELTRADE</text>
+    <text x="80" y="178" fill="url(#metal)" font-size="56" font-weight="800">ZelTrade Code</text>
+    <text x="80" y="218" fill="#9fb0c3" font-size="20">Redeem your store purchase codes in game</text>
+    <text x="80" y="256" fill="#64748b" font-size="15">Qbox · QBCore · ESX   ·   JVLCoins · money · items</text>
+  </g>
+
+  <!-- gift ticket -->
+  <ellipse cx="880" cy="178" rx="300" ry="150" fill="url(#halo)"/>
+  <rect x="660" y="92" width="440" height="170" rx="18" fill="url(#boleto)" stroke="#fbbf24" stroke-opacity="0.6" stroke-width="2" stroke-dasharray="10 7"/>
+  <circle cx="660" cy="177" r="16" fill="#07101b" stroke="#fbbf24" stroke-opacity="0.6" stroke-width="2"/>
+  <circle cx="1100" cy="177" r="16" fill="#07101b" stroke="#fbbf24" stroke-opacity="0.6" stroke-width="2"/>
+  <line x1="770" y1="108" x2="770" y2="246" stroke="#fbbf24" stroke-opacity="0.35" stroke-width="2" stroke-dasharray="6 6"/>
+
+  <!-- gift icon -->
+  <g transform="translate(694 140)">
+    <rect x="0" y="22" width="48" height="36" rx="4" fill="#fbbf24"/>
+    <rect x="-4" y="12" width="56" height="14" rx="3" fill="#fcd34d"/>
+    <rect x="20" y="12" width="8" height="46" fill="#b45309"/>
+    <path d="M24 12 C10 -6 0 6 10 12 Z M24 12 C38 -6 48 6 38 12 Z" fill="#fcd34d"/>
+  </g>
+
+  <g font-family="Consolas, 'Courier New', monospace">
+    <text x="800" y="150" fill="#9fb0c3" font-size="14" letter-spacing="3">CÓDIGO DE COMPRA</text>
+    <text x="800" y="194" fill="#e9eef5" font-size="34" font-weight="700" letter-spacing="5">ZELT-8F2K</text>
+    <rect class="cursor" x="1006" y="168" width="3" height="30" fill="#fbbf24"/>
+    <text x="800" y="232" fill="#34d399" font-size="15" font-weight="700">✓ +500 JVLCoins</text>
+  </g>
+
+  <!-- shine sweep over the ticket -->
+  <g clip-path="url(#recorte)">
+    <g transform="translate(660 0)">
+      <g class="brillo"><rect x="0" y="80" width="120" height="200" fill="url(#barrido)" transform="skewX(-20)"/></g>
+    </g>
+  </g>
+
+  <!-- coins rising -->
+  <g transform="translate(1040 112)"><g class="moneda"><circle r="9" fill="#fbbf24" stroke="#b45309" stroke-width="2"/></g></g>
+  <g transform="translate(1066 132)"><g class="moneda m2"><circle r="7" fill="#fcd34d" stroke="#b45309" stroke-width="2"/></g></g>
+  <g transform="translate(1016 124)"><g class="moneda m3"><circle r="6" fill="#fbbf24" stroke="#b45309" stroke-width="2"/></g></g>
+
+  <!-- sparkles -->
+  <g transform="translate(640 82)"><path class="chispa" d="M0 -10 L3 -3 L10 0 L3 3 L0 10 L-3 3 L-10 0 L-3 -3 Z" fill="#e9eef5"/></g>
+  <g transform="translate(1118 268)"><path class="chispa c2" d="M0 -8 L2 -2 L8 0 L2 2 L0 8 L-2 2 L-8 0 L-2 -2 Z" fill="#38bdf8"/></g>
+  <g transform="translate(1124 84)"><path class="chispa c3" d="M0 -7 L2 -2 L7 0 L2 2 L0 7 L-2 2 L-7 0 L-2 -2 Z" fill="#fbbf24"/></g>
+</svg>

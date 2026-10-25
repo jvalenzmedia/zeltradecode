@@ -1,32 +1,26 @@
 fx_version 'cerulean'
-game      'gta5'
-
+game 'gta5'
 lua54 'yes'
 
-name        'zeltradecode'
-description 'ZelTrade — Sistema de canje de códigos'
-author      'JVL MediaCode'
-version     '1.0.0'
+name 'zeltradecode'
+author 'JVL MediaCode'
+description 'ZelTrade Code - Redeem ZelTrade store purchase codes at an NPC (Qbox, QBCore, ESX)'
+version '2.0.0'
 
+-- Optional: ox_target / qb-target, jvl_playtime (JVLCoins), jvl_notify, jvl_textui. No fxmanifest dependencies.
 shared_scripts {
+    'locales/*.lua',
     'config.lua',
+    'shared.lua',
 }
 
-server_scripts {
-    'server.lua',
-}
+client_script 'client.lua'
+server_script 'server.lua'
 
-client_scripts {
-    'client.lua',
-}
-
-ui_page 'html/index.html'
+ui_page 'web/index.html'
 
 files {
-    'html/index.html',
+    'web/index.html',
+    'web/*.css',
+    'web/*.js',
 }
-
-dependencies {
-    'ox_target',
-}
-
