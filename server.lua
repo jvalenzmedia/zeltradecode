@@ -158,7 +158,8 @@ end
 if Framework == 'esx' then
     AddEventHandler('esx:playerLoaded', function(playerId) entregarPendiente(playerId) end)
 else
-    AddEventHandler('QBCore:Server:OnPlayerLoaded', function() entregarPendiente(source) end)
+    -- server-side event (QBCore:Server:OnPlayerLoaded is sent by the client and blocked by FiveM)
+    AddEventHandler('QBCore:Server:PlayerLoaded', function(p) entregarPendiente(p.PlayerData.source) end)
 end
 
 AddEventHandler('playerDropped', function()
