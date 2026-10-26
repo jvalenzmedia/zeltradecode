@@ -16,7 +16,7 @@ Config = {}
 Config.Framework = 'auto' -- 'auto' | 'qbox' | 'qb' | 'esx'
 Config.Locale = 'auto'    -- 'auto' (player's GTA language) | 'es' | 'en'
 
-Config.ApiUrl = 'https://jvlstore.site/fivem/api'
+Config.ApiUrl = 'https://zeltrade.shop/fivem/api'
 
 Config.Branding = {
     ServerName = 'JVL MediaCode',

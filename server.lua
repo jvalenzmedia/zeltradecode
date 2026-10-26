@@ -138,7 +138,7 @@ RegisterNetEvent('zeltradecode:canjear', function(raw)
         guardarPendiente(id, amount)
         log('Código canjeado, recompensa pendiente', { name .. ' (' .. id .. ')', code, amount .. ' ' .. Config.Reward.type }, 15105570)
         if GetPlayerName(source) then responder(source, false, 'err_pending') end
-    end, 'POST', json.encode({ api_key = apiKey, code = code }), { ['Content-Type'] = 'application/json' })
+    end, 'POST', json.encode({ api_key = apiKey, code = code, player_id = id }), { ['Content-Type'] = 'application/json' })
 end)
 
 -- ─── PENDING REWARDS ON LOGIN ────────────────────────────────────────────────
