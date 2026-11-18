@@ -6,6 +6,7 @@ Locales.en = {
     blip = 'ZelTrade · Redeem code',
 
     reward_coins = 'JVLCoins',
+    reward_diamonds = 'Diamonds',
     reward_account = 'in money',
     reward_item = 'items',
 

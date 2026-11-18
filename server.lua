@@ -7,6 +7,9 @@
 
 local apiKey = GetConvar('zeltrade_api_key', '')
 local webhook = GetConvar('zeltradecode_webhook', '')
+-- Optional override, e.g. a loopback URL when the store runs on the same machine as the server
+local apiUrl = GetConvar('zeltrade_api_url', '')
+if apiUrl == '' then apiUrl = Config.ApiUrl end
 
 local ultimoIntento = {} -- [source] = os.time()
 local fallos = {}        -- [source] = { count, since }
@@ -36,6 +39,9 @@ local function darRecompensa(source, amount)
     local r = Config.Reward
     if r.type == 'coins' then
         return GetResourceState('jvl_playtime') == 'started' and exports.jvl_playtime:addCoins(source, amount) == true
+    end
+    if r.type == 'diamonds' then
+        return GetResourceState('jvl_vip') == 'started' and exports.jvl_vip:AddDiamonds(source, amount, 'zeltrade') == true
     end
     if r.type == 'item' and GetResourceState('ox_inventory') == 'started' then
         return exports.ox_inventory:AddItem(source, r.name, amount) and true or false
@@ -116,7 +122,7 @@ RegisterNetEvent('zeltradecode:canjear', function(raw)
     local name = GetPlayerName(source) or '?'
 
     enCurso[source] = true
-    PerformHttpRequest(Config.ApiUrl .. '/redeem-code.php', function(status, body)
+    PerformHttpRequest(apiUrl .. '/redeem-code.php', function(status, body)
         enCurso[source] = nil
         local ok, data = pcall(json.decode, body or '')
         data = ok and type(data) == 'table' and data or {}
@@ -172,11 +178,14 @@ CreateThread(function()
     if apiKey == '' then
         return print('^1[zeltradecode] Falta la API key: agrega  set zeltrade_api_key "..."  en un cfg del servidor^0')
     end
-    PerformHttpRequest(Config.ApiUrl .. '/verify-license.php', function(status, body)
+    PerformHttpRequest(apiUrl .. '/verify-license.php', function(status, body, _, errorData)
         local ok, data = pcall(json.decode, body or '')
         data = ok and type(data) == 'table' and data or {}
         if status == 200 and data.valid then
             print(('^2[zeltradecode] Licencia válida - %s^0'):format(data.server_name or ''))
+        elseif status == 0 then
+            -- status 0 = the request never got an answer (DNS, TLS or network); errorData says why
+            print(('^1[zeltradecode] No se pudo conectar con %s: %s^0'):format(apiUrl, tostring(errorData)))
         else
             print(('^1[zeltradecode] Licencia inválida: %s^0'):format(data.error or ('HTTP ' .. tostring(status))))
         end

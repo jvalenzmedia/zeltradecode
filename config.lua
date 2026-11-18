@@ -19,21 +19,22 @@ Config.Locale = 'auto'    -- 'auto' (player's GTA language) | 'es' | 'en'
 Config.ApiUrl = 'https://zeltrade.shop/fivem/api'
 
 Config.Branding = {
-    ServerName = 'JVL MediaCode',
-    LogoUrl = 'https://r2.fivemanage.com/X1XK135fBbC6NDyRj5dwS/logomediacode.png', -- '' = icon
+    ServerName = 'CUMBRE RP V2',
+    LogoUrl = 'https://r2.fivemanage.com/X1XK135fBbC6NDyRj5dwS/cumbreB.png', -- '' = icon
     BannerUrl = 'https://r2.fivemanage.com/plDaVyUnqzswB27k97G3U/CumbreBanner.png', -- image on top of the panel ('' = gradient)
 }
 
 -- What the redeemed amount gives the player
 --   'coins'   JVLCoins (jvl_playtime)
+--   'diamonds' VIP diamonds (jvl_vip)
 --   'account' money account: Qbox / QBCore 'cash' | 'bank' | 'crypto'... ESX 'money' | 'bank' | 'black_money' | 'coin'...
 --   'item'    inventory item (name = item name)
-Config.Reward = { type = 'coins', name = 'bank' }
+Config.Reward = { type = 'diamonds', name = 'bank' }
 
 -- NPC
 Config.Ped = {
     model = 'a_m_m_business_01',
-    coords = vector4(-1277.1866, -568.8777, 31.7136, 80.7096), -- x, y, z, heading
+    coords = vector4(-1291.7303, -575.6040, 30.5722, 216.0073), -- x, y, z, heading
     scenario = 'WORLD_HUMAN_CLIPBOARD', -- '' = stand still
 }
 

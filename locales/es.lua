@@ -6,6 +6,7 @@ Locales.es = {
     blip = 'ZelTrade · Canjear código',
 
     reward_coins = 'JVLCoins',
+    reward_diamonds = 'Diamantes',
     reward_account = 'de dinero',
     reward_item = 'artículos',
 
